@@ -501,11 +501,47 @@ describe("index.html", () => {
     - Check code coverage
     - Automate deployment
 
-Servers CI:
+### Servers CI:
 
-    - Travis (use this)
-    - Appveyor (windows support)
+**Travis linux env (use this)**
+
+```yml
+language: node_js
+node_js:
+  - "14"
+```
+
+**Appveyor windows env (windows support)**
+
+```yml
+# Test against this version of Node.js
+environment:
+  matrix:
+    # node.js
+    - nodejs_version: "14"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # install modules
+  - npm install
+
+# Post-install test scripts.
+test_script:
+  # Output usefull info for debugging.
+  - node --version
+  - npm --version
+  # run tests
+  - npm test
+
+# Don't actually build.
+build: off
+```
+
     - Jenkins
     - circleci
     - semaphore
     - snapCI
+
+# HTTP and Mock APIs
