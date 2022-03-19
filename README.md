@@ -134,9 +134,9 @@ Example:
 
 **Why Bundle:**
 
-- CommnJS doesn't work in web browsers
-- Package project into files
-- Improve Node performance
+    - CommnJS doesn't work in web browsers
+    - Package project into files
+    - Improve Node performance
 
 **5 module Formats:**
 
@@ -148,15 +148,15 @@ Example:
 
 **Why Use ES6 Modules?**
 
-- Standardized
-- Statically analyzable
-  - Improved autocomplete
-  - Itelligent refactoring
-  - Fails fast
-  - Tree shaking
-- Esay to read
-  - Named imports
-  - Default exports
+    - Standardized
+    - Statically analyzable
+      - Improved autocomplete
+      - Itelligent refactoring
+      - Fails fast
+      - Tree shaking
+    - Esay to read
+      - Named imports
+      - Default exports
 
 ## Choosing a Bundler:
 
@@ -259,18 +259,18 @@ app.use(
 
 **_Why Lint ?:_**
 
-- Enforce Consistency :
-  - Curly brace position
-  - confirm / alert
-  - Trailing commas
-  - Globals
-  - eval
-- Avoid Mistakes
-  - Extra parenthesis
-  - Overwriting function
-  - Assignement in conditional
-  - Missing default case in switch
-  - debugger / console.log
+    - Enforce Consistency :
+      - Curly brace position
+      - confirm / alert
+      - Trailing commas
+      - Globals
+      - eval
+    - Avoid Mistakes
+      - Extra parenthesis
+      - Overwriting function
+      - Assignement in conditional
+      - Missing default case in switch
+      - debugger / console.log
 
 **Pick a Liner:**
 
@@ -336,23 +336,23 @@ Configuring ESLint via package.json example:
 
 ### Linting Experimental Features:
 
-- Run ESLint directly
-  - Support current JS features
-- Babel-eslint
-  - Also lints experimental features
+    - Run ESLint directly
+      - Support current JS features
+    - Babel-eslint
+      - Also lints experimental features
 
 ### Why Lint via an Automated Build Process?
 
-1.  One place to check
-2.  Universal configuration
-3.  Part of continuous integration
+    1.  One place to check
+    2.  Universal configuration
+    3.  Part of continuous integration
 
 ### DEMO
 
-setup ESLint:
+    setup ESLint:
 
-- ESLint Recommanded
-- eslint-watch
+    - ESLint Recommanded
+    - eslint-watch
 
 **eslintrc.json:**
 
@@ -376,3 +376,136 @@ setup ESLint:
   "rules": {}
 }
 ```
+
+# Testing and Continuous Integration:
+
+    Unit Testing Decisions:
+
+    1. Framework
+      - Mocha
+      - Jasmine
+      - Tape
+      - QUnit
+      - AVA
+      - Jest
+    2. Assertion Library : **Declare what you expect**
+      - **chai** / shouldJS, expect
+    3. Helper Libraries
+      - JSDOM
+        - Simulate the browser's DOM
+        - Run DOM-related tests without a browser
+      - Cheerio
+        - JQuery for the server
+        - Query virtual DOM using JQuery selectors
+    4. Where to run tests
+      - Browser
+        - Karma, Testem
+      - Headless Browser
+        - Headless Chrome
+      - In-memory DOM
+        - JSDOM **(use this)**
+    5. Where to place tests
+      - Centralized
+        - Les "noise" in src folder
+        - Deployment confusion
+        - Inertia
+      - Alongside **(use this)**
+        - Easy imports
+        - Clear visibility
+        - Convenient to open
+        - No recreating folder structure
+        - Easy file moves
+    6. When to run tests **(Unit Test Should Run When You Hit Save)**
+      - Rapid feedback
+      - Facilitates TDD
+      - Automatic = Low friction
+      - Increase test visibility
+
+### Deference between Unit Test & Integration Tests
+
+     - Unit Tests
+       - Test a small unit
+       - Often single function
+       - Fast
+       - Run upon save
+     - Integration Tests
+       - Test multiple units
+       - Often involves clocking and waiting
+       - Slow
+       - Often run demand, or inQA
+
+**testSetup.js:**
+
+```js
+// This file isn't transpiled, so must use CommonJS and ES5
+
+// Register babel to transpile before our tests run.
+require("@babel/register")();
+
+// Disable webpack features that Mocha doesn't understand.
+require.extensions[".css"] = function () {};
+```
+
+**First test with mocka & chai :**
+
+```js
+import { expect } from "chai";
+
+describe("Our first test", () => {
+  it("should pass", () => {
+    expect(true).to.equal(true);
+  });
+});
+```
+
+**package.json:**
+
+```json
+{
+  "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.test.js\""
+}
+```
+
+**example dom test:**
+
+```js
+describe("index.html", () => {
+  it("should say hello", () => {
+    const index = fs.readFileSync("./src/index.html", "utf-8");
+    const { JSDOM } = jsdom;
+    const dom = new JSDOM(index);
+    const h1 = dom.window.document.getElementsByTagName("h1")[0];
+
+    expect(h1.innerHTML).to.equal("Hello");
+    dom.window.close();
+  });
+});
+```
+
+## Continuous Integration:
+
+    some reason why CI fail sometimes ?
+
+    - Forgot to commit new file
+    - Forgot to update package.json
+    - Commit doesn't run cross-platform
+    - Node version conflicts
+    - Bad merge
+    - Didn't run tests
+    - Catch mistakes quickly
+
+## What Does a CI Server DO ?
+
+    - Run Automated build
+    - Run your tests
+    - Check code coverage
+    - Automate deployment
+
+Servers CI:
+
+    - Travis (use this)
+    - Appveyor (windows support)
+    - Jenkins
+    - circleci
+    - semaphore
+    - snapCI
