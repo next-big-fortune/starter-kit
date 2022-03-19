@@ -1,0 +1,140 @@
+[90m                                                                                [39m
+[90m [39m                      === npm audit security report ===                       [90m [39m
+[90m                                                                                [39m
+# Run  npm install --save-dev mocha@9.2.2  to resolve 2 vulnerabilities
+SEMVER WARNING: Recommended action is a potentially breaking change
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m  Inefficient Regular Expression Complexity in                [90m [39m
+[90m [39m               [90m [39m chalk/ansi-regex                                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m ansi-regex                                                   [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m mocha [dev]                                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m mocha > wide-align > string-width > strip-ansi > ansi-regex  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-93q8-gq69-wqmw            [90m [39m
+[90m                [39m[90m                                                                [39m
+
+
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m Exposure of Sensitive Information to an Unauthorized Actor   [90m [39m
+[90m [39m               [90m [39m in nanoid                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m nanoid                                                       [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m mocha [dev]                                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m mocha > nanoid                                               [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-qrpm-p2h7-hrv2            [90m [39m
+[90m                [39m[90m                                                                [39m
+
+
+# Run  npm install --save-dev localtunnel@2.0.2  to resolve 1 vulnerability
+[90m                [39m[90m                                                                [39m
+[90m [39m High          [90m [39m Incorrect Comparison in axios                                [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m axios                                                        [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m localtunnel [dev]                                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m localtunnel > axios                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-cph5-m8f7-6c5x            [90m [39m
+[90m                [39m[90m                                                                [39m
+
+
+# Run  npm install --save-dev cheerio@1.0.0-rc.10  to resolve 2 vulnerabilities
+[90m                [39m[90m                                                                [39m
+[90m [39m High          [90m [39m Denial of service in css-what                                [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m css-what                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m cheerio [dev]                                                [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m cheerio > cheerio-select-tmp > css-what                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-q8pj-2vqx-8ggc            [90m [39m
+[90m                [39m[90m                                                                [39m
+
+
+[90m                [39m[90m                                                                [39m
+[90m [39m High          [90m [39m Denial of service in css-what                                [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m css-what                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m cheerio [dev]                                                [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m cheerio > cheerio-select-tmp > css-select > css-what         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-q8pj-2vqx-8ggc            [90m [39m
+[90m                [39m[90m                                                                [39m
+
+
+# Run  npm update null --depth 2  to resolve 1 vulnerability
+[90m                [39m[90m                                                                [39m
+[90m [39m High          [90m [39m Regular expression denial of service                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m glob-parent                                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m @babel/cli [dev]                                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m @babel/cli > @nicolo-ribaudo/chokidar-2 > glob-parent        [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-ww39-953v-wcq6            [90m [39m
+[90m                [39m[90m                                                                [39m
+
+
+[90m                                                                                [39m
+[90m [39m                                Manual Review                                 [90m [39m
+[90m [39m            Some vulnerabilities require your attention to resolve            [90m [39m
+[90m [39m                                                                              [90m [39m
+[90m [39m         Visit https://go.npm.me/audit-guide for additional guidance          [90m [39m
+[90m                                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m  Inefficient Regular Expression Complexity in                [90m [39m
+[90m [39m               [90m [39m chalk/ansi-regex                                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m ansi-regex                                                   [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=5.0.1                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m surge [dev]                                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m surge > cli-table3 > string-width > strip-ansi > ansi-regex  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-93q8-gq69-wqmw            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m  Inefficient Regular Expression Complexity in                [90m [39m
+[90m [39m               [90m [39m chalk/ansi-regex                                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m ansi-regex                                                   [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=5.0.1                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m surge [dev]                                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m surge > inquirer > string-width > strip-ansi > ansi-regex    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-93q8-gq69-wqmw            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m  Inefficient Regular Expression Complexity in                [90m [39m
+[90m [39m               [90m [39m chalk/ansi-regex                                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m ansi-regex                                                   [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=5.0.1                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m surge [dev]                                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m surge > inquirer > strip-ansi > ansi-regex                   [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://github.com/advisories/GHSA-93q8-gq69-wqmw            [90m [39m
+[90m                [39m[90m                                                                [39m
+found 9 vulnerabilities (5 moderate, 4 high) in 1028 scanned packages
+  run `npm audit fix` to fix 4 of them.
+  2 vulnerabilities require semver-major dependency updates.
+  3 vulnerabilities require manual review. See the full report for details.
