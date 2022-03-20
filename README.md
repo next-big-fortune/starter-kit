@@ -2,11 +2,15 @@
 
 ## Editor :
 
+---
+
 **_Editor config_**:
 
 create into root project directory .editorconfig file and add the configuration spacing that should be apply in the project
 
 ## NPM packages :
+
+---
 
 **Install _NodeJS:_ and Npm:**
 
@@ -22,11 +26,15 @@ install snyk
 
 ## Development Web Server :
 
+---
+
 **Express:** we use express as dev server to serve and test the app
 
 **localtunnel**: to share the app with others (client for example).
 
 ## Automation :
+
+---
 
 **Npm Scripts:**
 
@@ -53,6 +61,8 @@ demo:
 
 ## Transpiling : (Babel or TypeScript)
 
+---
+
 **Important:** _we can use babel to transpile typescript_
 
 **TypeScript:**
@@ -71,9 +81,13 @@ demo:
 
 ### Setup:
 
+---
+
 - **@babel/preset-env** : that allow you to use the latest JS without needing to micromenage
 
 ### Babel configuration style:
+
+---
 
 **.babelrc**:
 
@@ -97,6 +111,8 @@ Example:
 ```
 
 ### Build Script JS Style
+
+---
 
 **Plain JS:**
 
@@ -132,6 +148,8 @@ Example:
 
 # Bundling:
 
+---
+
 **Why Bundle:**
 
     - CommnJS doesn't work in web browsers
@@ -160,11 +178,15 @@ Example:
 
 ## Choosing a Bundler:
 
+---
+
 - **REQUIRE.JS:**
   - First popular bundler
   - Utilizes and helped popularize AMD pattern
 
 ### Bundlers:
+
+---
 
 - **Browserify:** **_(Simple)_**
   - The First bundler to reach mass adoption
@@ -237,6 +259,8 @@ export default {
 
 ### Configure webpack with express:
 
+---
+
 ```js
 import webpack from "webpack";
 import config from "../webpack.config.dev.js";
@@ -251,11 +275,15 @@ app.use(
 
 ### Source Map:
 
+---
+
 - Maps code back to original source
 - Part of our build
 - Downloaded if you open developer tools **(So only downloaded when you need it!)**
 
 # Linting:
+
+---
 
 **_Why Lint ?:_**
 
@@ -325,6 +353,8 @@ Configuring ESLint via package.json example:
 
 ## Watching file with ESLint:
 
+---
+
 - **eslint-loader:**
   - Re-lints all files upon save.
 - **eslint-watch**
@@ -336,6 +366,8 @@ Configuring ESLint via package.json example:
 
 ### Linting Experimental Features:
 
+---
+
     - Run ESLint directly
       - Support current JS features
     - Babel-eslint
@@ -343,11 +375,15 @@ Configuring ESLint via package.json example:
 
 ### Why Lint via an Automated Build Process?
 
+---
+
     1.  One place to check
     2.  Universal configuration
     3.  Part of continuous integration
 
 ### DEMO
+
+---
 
     setup ESLint:
 
@@ -378,6 +414,8 @@ Configuring ESLint via package.json example:
 ```
 
 # Testing and Continuous Integration:
+
+---
 
     Unit Testing Decisions:
 
@@ -422,6 +460,8 @@ Configuring ESLint via package.json example:
       - Increase test visibility
 
 ### Deference between Unit Test & Integration Tests
+
+---
 
      - Unit Tests
        - Test a small unit
@@ -484,6 +524,8 @@ describe("index.html", () => {
 
 ## Continuous Integration:
 
+---
+
     some reason why CI fail sometimes ?
 
     - Forgot to commit new file
@@ -496,12 +538,16 @@ describe("index.html", () => {
 
 ## What Does a CI Server DO ?
 
+---
+
     - Run Automated build
     - Run your tests
     - Check code coverage
     - Automate deployment
 
 ### Servers CI:
+
+---
 
 **Travis linux env (use this)**
 
@@ -545,3 +591,212 @@ build: off
     - snapCI
 
 # HTTP and Mock APIs
+
+## HTTP Call Approches
+
+**Node:**
+
+- http
+- request
+
+**Browser**
+
+- XMLHttpRequest
+- JQuery
+- Framework-based
+- Fetch
+
+**Node & Browser**
+
+- isomorphic-fetch
+- xhr
+- SuperAgent
+- Axios **(use this)**
+
+## Centralizing HTTP Requests:
+
+---
+
+**1 Spot**
+
+- Configure all calls
+- Handle preloader logic
+- Handle errors
+- Single seam for mocking
+
+**Demo**
+
+**src/api/userApi.js**
+
+```js
+import "whatwg-fetch";
+
+export function getUsers() {
+  return get("users");
+}
+
+function get(url) {
+  return fetch(url).then(onSuccess, onError);
+}
+
+function onSuccess(response) {
+  return response.json();
+}
+
+function onError(error) {
+  console.log(error); // eslint-disable-line no-console
+}
+```
+
+**builScripts/srcServer**
+
+```js
+app.get("/users", (req, res) => {
+  res.json([
+    {
+      id: 1,
+      firstName: "Ayoub",
+      lastName: "BELGHAR",
+      email: "ayoub.belghar@gmail.com",
+    },
+    {
+      id: 2,
+      firstName: "Mooad",
+      lastName: "BELGHAR",
+      email: "moaad.belghar@gmail.com",
+    },
+    {
+      id: 3,
+      firstName: "Driss",
+      lastName: "BELGHAR",
+      email: "driss.belghar@gmail.com",
+    },
+  ]);
+});
+```
+
+## Mocking:
+
+### Why Mock HTTP ?:
+
+---
+
+- Unit Testing
+- Instant response
+- Keep working when services are down
+- Avoid inter-team bottlenecks
+- Work offline
+
+### How to Mock HTTP ?
+
+---
+
+- Nock
+- Static JSON
+- Creare development webserver
+  - api-mock
+  - JSON server
+  - JSON Schema faker
+  - Browsersync
+  - Express ect..
+
+### Plan for Mocking HTTP
+
+---
+
+1. Declare our schema:
+
+   - JSON Schema Faker
+
+2. Generate Random Data:
+
+   - faker.js
+   - chance.js
+   - randexp.js
+
+Example :
+
+```js
+export const schema = {
+  type: "object",
+  properties: {
+    users: {
+      type: "array",
+      minItems: 3,
+      maxItems: 5,
+      items: {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer",
+
+            minimum: 1,
+          },
+          firstName: {
+            type: "string",
+            faker: "name.firstName",
+          },
+          lastName: {
+            type: "string",
+            faker: "name.lastName",
+          },
+          email: {
+            type: "string",
+            faker: "internet.email",
+          },
+        },
+        required: ["id", "firstName", "lastName", "email"],
+      },
+    },
+  },
+  required: ["users"],
+};
+```
+
+3. Serve Data via API
+   - JSON Server
+
+```json
+{
+  "generate-mock-data": "babel-node buildScripts/generateMockData",
+  "prestart-mockapi": "npm run generate-mock-data",
+  "start-mockapi": "json-server --watch src/api/db.json --port 3001"
+}
+```
+
+**BaseUrl:**
+
+```js
+export default function getBaseUrl() {
+  const inDevelopment = window.location.hostname === "localhost";
+  return inDevelopment ? "http://localhost:3001/" : "/";
+}
+```
+
+**userApi.js**
+
+```js
+function del(url) {
+  const request = new Request(baseUrl() + url, {
+    method: "DELETE",
+  });
+  return fetch(request).then(onSuccess, onError);
+}
+```
+
+**srcServer.js**
+
+```js
+// Must use array.from to create a real array from A DOM colelction
+// getElementsByClassname only returns an "array like" object
+
+Array.from(global.document.getElementsByClassName("deleteUser"), (link) => {
+  link.onclick = function (event) {
+    const element = event.target;
+    event.preventDefault();
+    deleteUser(element.attributes["data-id"].value);
+    const row = element.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+  };
+});
+```
