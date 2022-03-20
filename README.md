@@ -8,6 +8,8 @@
 
 create into root project directory .editorconfig file and add the configuration spacing that should be apply in the project
 
+---
+
 ## NPM packages :
 
 ---
@@ -58,6 +60,8 @@ demo:
   "share": "npm-run-all --parallel start localtunnel"
 }
 ```
+
+---
 
 ## Transpiling : (Babel or TypeScript)
 
@@ -110,6 +114,8 @@ Example:
 }
 ```
 
+---
+
 ### Build Script JS Style
 
 ---
@@ -146,9 +152,9 @@ Example:
 }
 ```
 
-# Bundling:
-
 ---
+
+# Bundling:
 
 **Why Bundle:**
 
@@ -257,6 +263,8 @@ export default {
 };
 ```
 
+---
+
 ### Configure webpack with express:
 
 ---
@@ -273,6 +281,8 @@ app.use(
 );
 ```
 
+---
+
 ### Source Map:
 
 ---
@@ -282,8 +292,6 @@ app.use(
 - Downloaded if you open developer tools **(So only downloaded when you need it!)**
 
 # Linting:
-
----
 
 **_Why Lint ?:_**
 
@@ -351,6 +359,8 @@ Configuring ESLint via package.json example:
     - Recommanded
     - Presets **(airbnb, standardJS)**
 
+---
+
 ## Watching file with ESLint:
 
 ---
@@ -413,9 +423,9 @@ Configuring ESLint via package.json example:
 }
 ```
 
-# Testing and Continuous Integration:
-
 ---
+
+# Testing and Continuous Integration:
 
     Unit Testing Decisions:
 
@@ -458,6 +468,8 @@ Configuring ESLint via package.json example:
       - Facilitates TDD
       - Automatic = Low friction
       - Increase test visibility
+
+---
 
 ### Deference between Unit Test & Integration Tests
 
@@ -521,6 +533,8 @@ describe("index.html", () => {
   });
 });
 ```
+
+---
 
 ## Continuous Integration:
 
@@ -590,6 +604,8 @@ build: off
     - semaphore
     - snapCI
 
+---
+
 # HTTP and Mock APIs
 
 ## HTTP Call Approches
@@ -612,6 +628,8 @@ build: off
 - xhr
 - SuperAgent
 - Axios **(use this)**
+
+---
 
 ## Centralizing HTTP Requests:
 
@@ -675,17 +693,21 @@ app.get("/users", (req, res) => {
 });
 ```
 
+---
+
 ## Mocking:
 
-### Why Mock HTTP ?:
-
 ---
+
+### Why Mock HTTP ?:
 
 - Unit Testing
 - Instant response
 - Keep working when services are down
 - Avoid inter-team bottlenecks
 - Work offline
+
+---
 
 ### How to Mock HTTP ?
 
@@ -699,6 +721,8 @@ app.get("/users", (req, res) => {
   - JSON Schema faker
   - Browsersync
   - Express ect..
+
+---
 
 ### Plan for Mocking HTTP
 
@@ -836,7 +860,11 @@ Array.from(global.document.getElementsByClassName("deleteUser"), (link) => {
 });
 ```
 
+---
+
 ## Project Structure
+
+---
 
 ### Why Include a Demo App?
 
@@ -855,17 +883,21 @@ Array.from(global.document.getElementsByClassName("deleteUser"), (link) => {
 - Organize by feature
 - Extract logic into "POJOs"
 
+---
+
 ## Production build:
 
-### Minification
-
 ---
+
+### Minification
 
 - Shortens variables and function names
 - Removes comments
 - Removes whitespace and new lines
 - Dead code elimination / Tree-shaking
 - Debug via sourcemap
+
+---
 
 ### Production webpack and dist Server
 
@@ -969,6 +1001,8 @@ app.get("/", (req, res) => {
 });
 ```
 
+---
+
 ### Toggle Mock API:
 
 ---
@@ -993,6 +1027,8 @@ function getQueryStringParameterByName(name, url) {
 }
 ```
 
+---
+
 ### Production build npm:
 
 ---
@@ -1010,6 +1046,8 @@ function getQueryStringParameterByName(name, url) {
 
 > **if you encounter an error just remove the target object from .babelrc file**
 
+---
+
 ### Dynamic HTML
 
 ---
@@ -1021,7 +1059,9 @@ function getQueryStringParameterByName(name, url) {
 - Inject Production only resources
 - Minify
 
-**Add webpack html plugin**
+## **Add webpack html plugin**
+
+---
 
 ## Bundle Splitting
 
@@ -1066,6 +1106,8 @@ entry: {
 import fetch from "whatwg-fetch";
 ```
 
+---
+
 ## Cache Busting
 
 ---
@@ -1080,6 +1122,8 @@ import fetch from "whatwg-fetch";
 ```js
 filename: "[name].[chunkhash].js",
 ```
+
+---
 
 ### Extract and Minify CSS
 
@@ -1096,6 +1140,8 @@ plugins: [
    }),
  ],
 ```
+
+---
 
 ### Error Logging:
 
@@ -1144,3 +1190,127 @@ new HtmlWebpackPlugin({
 </script>
 <% } %>
 ```
+
+## Production Deploy
+
+---
+
+### Separating the UI from the API
+
+---
+
+1. Simple, low-risk, UI only deploys
+2. Seperates concerns
+   - Separate teams
+   - Less to understand
+   - Scale back-end separately
+3. Cheap UI hosting
+4. Serve UI via a content delivery network
+5. Use the API tech you like
+
+---
+
+### Automated Deployment
+
+---
+
+**cloud hosting**
+
+- Amazon web services
+- Azure
+- Heroku **(use this for api)**
+- Firebase
+- Google Cloud Platform
+- Static Files:
+  - surge **(use this for UI)**
+  - github page
+  - netlify
+
+**Automated API Deploy on heroku**
+
+> use the example app for api hosted on this repo : https://github.com/next-big-fortune/js-dev-env-demo-api
+
+- **install heroku-cli**
+
+- **login into heroku**
+- **heroku create**
+- **heroku git:remote -a 'name of created app'**
+- **heroku push heroku master**
+
+---
+
+### Automated UI Deployment
+
+---
+
+**The Path to Production**
+
+- npm start **(development)**
+- npm run build **(production build)**
+- npm run deploy **(production deploy)**
+
+**DeMo**
+
+> we use surge to deploy our UI
+
+> **add deploy script into package.json with this command 'surge ./dist'**
+
+---
+
+### Update Approaches
+
+---
+
+- Yeoman **(generator)**
+  - commit
+  - Scaffoled over the existing project
+  - Resolve conflicts manualy **(yeoman course on pluralsight)**
+- Github
+  1. Host on github
+  2. Fork the starter kit for new project
+  3. Pull changes from master
+- npm
+  1. Encapsulate kit in npm package
+  2. Update npm package to receive latest
+
+**What Can We centralize?**
+
+| **item**                     | **Approach**                |
+| ---------------------------- | --------------------------- |
+| buildScripts                 | npm package                 |
+| npm scripts in packages.json | Call scripts in npm package |
+| webpack.config files         | npm package                 |
+| .eslintrc                    | Create preset               |
+
+**What Did we Centralize ?**
+
+| **Centralized**         | **Decentralized**                    |
+| ----------------------- | ------------------------------------ |
+| buildScripts            | .editorconfig                        |
+| Scripts in package.json | .babelrc                             |
+| webpack.config          | CI config (.travis.yml Appveyor.yml) |
+| .eslintrc               | Package references in package.json   |
+
+---
+
+## Inspiration:
+
+---
+
+**https://javascriptstuff.com/react-starter-projects**
+
+- Development environment
+- Boilerplate
+- Starter kit
+- Starter project
+- Seed
+
+### Challenge:
+
+---
+
+**Send a meeting invite to your team.**
+
+- Would we benefit from a starter-kit ?
+- What are our JS pain point ?
+- Would we benefit from a demo app ?
