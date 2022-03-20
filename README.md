@@ -856,3 +856,291 @@ Array.from(global.document.getElementsByClassName("deleteUser"), (link) => {
 - Extract logic into "POJOs"
 
 ## Production build:
+
+### Minification
+
+---
+
+- Shortens variables and function names
+- Removes comments
+- Removes whitespace and new lines
+- Dead code elimination / Tree-shaking
+- Debug via sourcemap
+
+### Production webpack and dist Server
+
+---
+
+**webpack.config.prod.js**
+
+```js
+import path from "path";
+
+export default {
+  mode: "production",
+  devtool: "source-map", // recommanded for production
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    filename: "bundle.js",
+  },
+  plugins: [],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ["babel-loader"],
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+};
+```
+
+**build.js**
+
+```js
+/* eslint-disable no-console */
+import webpack from "webpack";
+import webpackConfig from "../webpack.config.prod";
+import chalk from "chalk";
+
+process.env.NODE_ENV = "production";
+
+console.log(
+  chalk.blue(
+    "Generating minified bundle for production. this will take a moment ..."
+  )
+);
+
+webpack(webpackConfig).run((err, stats) => {
+  if (err) {
+    // fatal error stop here
+    console.log(chalk.red(err));
+    return 1;
+  }
+  const jsonStats = stats.toJson();
+  const { hasErrors, hasWarnings } = jsonStats;
+  if (hasErrors) {
+    return jsonStats.errors.map((error) => console.log(chalk.red(error)));
+  }
+  if (hasWarnings) {
+    console.log(chalk.yellow("Webpack generated the following warnings: "));
+    hasWarnings.map((warning) => console.log(chalk.yellow(warning)));
+  }
+
+  console.log(`Webpack stats: ${stats}`);
+
+  // If we got this far, the build succeeded.
+  console.log(
+    chalk.green(
+      "Your app  has been built for production and written into /dist"
+    )
+  );
+
+  return 0;
+});
+```
+
+Create a dist server:
+**distServer.js**
+
+```js
+import express from "express";
+import path from "path";
+import open from "open";
+import compression from "compression";
+
+/* eslint-disable no-console */
+
+const app = express();
+const port = 3000;
+
+app.use(compression());
+app.use(express.static("dist"));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
+});
+```
+
+### Toggle Mock API:
+
+---
+
+**baseUrl.js**
+
+```js
+export default function getBaseUrl() {
+  return getQueryStringParameterByName("useMockApi")
+    ? "http://localhost:3001/"
+    : "/";
+}
+
+function getQueryStringParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+```
+
+### Production build npm:
+
+---
+
+**build scripts:**
+
+```json
+{
+  "clean-dist": "rimraf ./dist && mkdir dist",
+  "prebuild": "npm-run-all clean-dist test lint",
+  "build": "babel-node buildScripts/build.js",
+  "postbuild": "babel-node buildScripts/distServer.js"
+}
+```
+
+> **if you encounter an error just remove the target object from .babelrc file**
+
+### Dynamic HTML
+
+---
+
+**Why MAnipulate HTML for Production ?**
+
+- Reference bundles automatically
+- Handle dynamic bundle names
+- Inject Production only resources
+- Minify
+
+**Add webpack html plugin**
+
+## Bundle Splitting
+
+---
+
+**Why Bundle Splitting ?**
+
+- Speed initial page load
+- Avoid re-downloading all libraries
+
+**Demo**
+
+> change the webpack.config.prod.js
+
+```js
+entry: {
+    main: path.resolve(__dirname, "src/index"),
+    vendor: path.resolve(__dirname, "src/vendor"),
+  },
+```
+
+> add vendor.js file
+
+```js
+/* eslint-disable import/default */
+/*
+  Thie file contains references to the vendor libraries
+  we're using in this project. This is used by webpack
+  in the production build only*, A separate bundle for vendor
+  code is useful since it's unlikely to change as often
+  as the application's code. So all the libraries we reference
+  here will be written to vendor.js so they can be
+  cahced until one of them change. So basically, this avoids
+  customers having to download a huge JS file anytime a line
+  of code changes. They only have to download vendor.js when
+  a vendor library changes which should less frequent.
+  Any files that aren't referenced here will be bundled into
+  main.js for production build.
+*/
+
+/* eslint-disable no-unused-vars */
+import fetch from "whatwg-fetch";
+```
+
+## Cache Busting
+
+---
+
+**Why Bust Cache ?**
+
+- Save HTTP Requests
+- Force request for latest version
+
+> **add [chunkhash]**
+
+```js
+filename: "[name].[chunkhash].js",
+```
+
+### Extract and Minify CSS
+
+---
+
+> **add Mini Css Extract Plugin into webpack prod file**
+>
+> **Replace style-loader for css by : [MiniCssExtractPlugin.loader, "css-loader"]**
+
+```js
+plugins: [
+   new MiniCssExtractPlugin({
+     filename: "[name].[chunkhash].css",
+   }),
+ ],
+```
+
+### Error Logging:
+
+---
+
+- TrackJS **(use this)**
+- Sentry
+- new Relic
+- Raygun
+
+**JS Error Logginh: What to look for ?**
+
+- Error Metadata
+  - Browser
+  - Stack Trace
+  - Previous actions
+  - Custom API for enchanced tracking
+- Notifications & integratons
+- Analytics and filtering
+- Pricing
+
+**Setup TrackJS**
+
+> **add variable to htmlWebpackPlugin that will be accecible into generated page**
+
+```js
+new HtmlWebpackPlugin({
+      template: "src/index.html",
+      // Properties you define here are available in index.html
+      // using htmlWebpackPlugin.options.varName
+      trackJSToken: "7b274d95c75b489382b37ed571c5272e",
+    }),
+```
+
+> **add this condition with esjs into template html page to include the bug tracker just for production build**
+
+```html
+<% if(htmlWebpackPlugin.options.trackJSToken){ %>
+<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS &&
+    TrackJS.install({
+      token: "<%=htmlWebpackPlugin.options.trackJSToken%>",
+      // for more configuration options, see https://docs.trackjs.com
+    });
+</script>
+<% } %>
+```
